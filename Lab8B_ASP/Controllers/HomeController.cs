@@ -93,10 +93,10 @@ namespace Lab8B_ASP.Controllers
             {
                 Products = new List<Product>
                 {
-                    new Product {Name = "Kayak", Price = 275M},
-                    new Product {Name = "LifeJacket", Price = 48.95M},
-                    new Product {Name = "Soccer Ball", Price = 19.50M},
-                    new Product {Name = "Corner Flag", Price = 34.95M}
+                    new Product {Name = "Kayak", Category = "Watersports", Price = 275M},
+                    new Product {Name = "LifeJacket", Category = "Watersports", Price = 48.95M},
+                    new Product {Name = "Soccer Ball", Category = "Soccer", Price = 19.50M},
+                    new Product {Name = "Corner Flag", Category = "Soccer", Price = 34.95M}
                 }
             };
             decimal total = 0;
