@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -99,12 +100,56 @@ namespace Lab8B_ASP.Controllers
                     new Product {Name = "Corner Flag", Category = "Soccer", Price = 34.95M}
                 }
             };
+            Func<Product, bool> categoryFilter = prod => prod.Category == "Soccer";
             decimal total = 0;
-            foreach (Product prod in products.FilterByCategory("Soccer"))
+            foreach (Product prod in products.Filter(prod => prod.Category == "Soccer" || prod.Price > 20))
             {
                 total += prod.Price;
             }
             return View("Result", (object)String.Format("Total: {0}", total));
+        }
+
+        public ViewResult CreateAnonArray()
+        {
+            var oddsAndEnds = new[]
+            {
+                new { Name = "MVC", Category = "Patern" },
+                new { Name = "Hat", Category = "Clothing" },
+                new { Name = "Apple", Category = "Fruit" }
+            };
+            StringBuilder result = new StringBuilder();
+            foreach (var item in oddsAndEnds)
+            {
+                result.Append(item.Name).Append(" ");
+            }
+            return View("Result", (object)result.ToString());
+        }
+
+        public ViewResult FindProducts()
+        {
+            Product[] products =
+            {
+                new Product { Name = "Kayak", Category = "WaterSports", Price = 275M},
+                new Product { Name = "LifeJacket", Category = "WaterSports", Price = 48.95M},
+                new Product { Name = "Soccer Ball", Category = "Soccer", Price = 19.50M},
+                new Product { Name = "Corner Flag", Category = "Soccer", Price = 34.95M},
+            };
+            /*
+            var foundProducts = from match in products
+                                orderby match.Price descending
+                                select new { match.Name, match.Price }; */
+            var foundProducts = products.OrderByDescending(e => e.Price).Take(3).Select(e => new { e.Name, e.Price });
+            int count = 0;
+            StringBuilder result = new StringBuilder();
+            foreach(var p in foundProducts)
+            {
+                result.AppendFormat("Price: {0} ", p.Price);
+                if (++count == 3)
+                {
+                    break;
+                }
+            }
+            return View("Result", (object)result.ToString());
         }
     }
 }
